@@ -13,7 +13,7 @@ parser.add_argument('username')
 parser.add_argument('password')
 parser.add_argument('firstname')
 parser.add_argument('lastname')
-parser.add_argument('employee_number')
+parser.add_argument('personnel_number')
 
 db = client.db_example1
 
@@ -22,7 +22,7 @@ class HistoryWork(Resource):
         def get(self):
                 args = parser.parse_args()
                 id = args['id']
-                data = work.find_one({"user.employee_number":id})
+                data = work.find_one({"user.personnel_number":id})
                 if(data):
                         firstname = data['user']['firstname']
                         lastname = data['user']['lastname']
@@ -32,26 +32,26 @@ class HistoryWork(Resource):
 class Registration(Resource):
         def post(self):
                 args = parser.parse_args()
-                id = args['employee_number']
+                id = args['personnel_number']
                 firstname = args['firstname']
                 lastname = args['lastname']
                 password = args['password']
-                data = work.find_one({"user.employee_number":id})
+                data = work.find_one({"user.personnel_number":id})
                 if(data):
                         return {"err":"has this id"}
-                work.insert({"user":{"employee_number":id,"firstname":firstname,"lastname":lastname,"pastword":password},"list_work":[]})
-                return {"firstname":firstname,"lastname":lastname,"employee_number":id,"password":password}
+                work.insert({"user":{"personnel_number":id,"firstname":firstname,"lastname":lastname,"pastword":password},"list_work":[]})
+                return {"firstname":firstname,"lastname":lastname,"personnel_number":id,"password":password}
 class Login(Resource):
         def post(self):
                 args = parser.parse_args()
                 username = args['username']
                 password = args['password']
-                data = work.find_one({"user.employee_number":username,"user.pastword":password})
+                data = work.find_one({"user.personnel_number":username,"user.pastword":password})
                 if(data):
                         firstname = data['user']['firstname']
                         lastname = data['user']['lastname']
                         datetime_login = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                        work.update({"user.employee_number":username},{"$push":{"list_work":{"datetime":datetime_login}}})
+                        work.update({"user.personnel_number":username},{"$push":{"list_work":{"datetime":datetime_login}}})
                         return {"firstname":firstname,"lastname":lastname,"datetime":datetime_login}
                 return {}
 api.add_resource(Registration,'/api/register')
