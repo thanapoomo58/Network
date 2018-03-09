@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MainPage {
 
-  studentcode:any;
+  studentid:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http:HttpClient) {
   }
@@ -21,11 +21,11 @@ export class MainPage {
 
   httpFunction(){
     let item = {
-      studentcode : "58364609"
+      studentid : "58364272"
     };
-    this.http.post("http://192.168.56.2:5000/api/studentcode-to-binary",item).subscribe(response => {
-      this.studentcode = response['studentcode'];
-      console.log(this.studentcode);
+    this.http.post("http://192.168.56.2:5000/api/studentcode_to_binary",item).subscribe(response => {
+      this.studentid = response['studentid'];
+      console.log(this.studentid);
     },err => {
       console.log(err);
     })
